@@ -34,7 +34,7 @@ deploy:
     key: shopface-backend.zip
     bundle_type: zip
     application: shopface-backend
-    deployment_group: shopface-backend
+    deployment_group: shopface-backend-group
     region: ap-northeast-2
     wait-until-deployed: true
 notifications:
