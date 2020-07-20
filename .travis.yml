@@ -5,17 +5,18 @@ jdk:
 
 branches:
   only:
-  - dev
+    - master
+    - dev
 
 cache:
   directories:
-  - "$HOME/.m2/repository"
-  - "$HOME/.gradle"
+  - '$HOME/.m2/repository'
+  - '$HOME/.gradle'
 
 before_install:
   - chmod +x gradlew
 
-script: "./gradlew clean build"
+script: './gradlew clean build'
 
 before_deploy:
   - zip -r shopface-backend *
@@ -32,9 +33,6 @@ deploy:
     skip_cleanup: true
     acl: public_read
     wait-until-deployed: true
-    on:
-      repo: gmu1026/shopface-back
-      branch: dev
 
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY
@@ -46,9 +44,6 @@ deploy:
     deployment_group: shopface-backend
     region: ap-northeast-2
     wait-until-deployed: true
-    on:
-      repo: gmu1026/shopface-back
-      branch: dev
 
 notifications:
   slack:
