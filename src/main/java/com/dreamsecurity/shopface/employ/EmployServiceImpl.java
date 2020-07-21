@@ -17,7 +17,7 @@ import java.util.Random;
 
 @RequiredArgsConstructor
 @Service
-class EmployServiceImpl implements EmployService {
+public class EmployServiceImpl implements EmployService{
     private final EmployMapper employMapper;
     private final JavaMailSender mailSender;
 
@@ -207,3 +207,4 @@ class EmployServiceImpl implements EmployService {
         return result;
     }
 }
+

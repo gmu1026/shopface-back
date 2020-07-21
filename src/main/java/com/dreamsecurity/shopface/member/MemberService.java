@@ -1,4 +1,4 @@
-package com.dreamsecurity.shopface.Member;
+package com.dreamsecurity.shopface.member;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;

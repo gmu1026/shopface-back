@@ -1,4 +1,4 @@
-package com.dreamsecurity.shopface.Member;
+package com.dreamsecurity.shopface.member;
 
 import org.apache.ibatis.annotations.Mapper;
 

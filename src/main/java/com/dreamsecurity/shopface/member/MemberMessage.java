@@ -1,4 +1,4 @@
-package com.dreamsecurity.shopface.Member;
+package com.dreamsecurity.shopface.member;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
