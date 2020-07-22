@@ -1,5 +1,6 @@
 package com.dreamsecurity.shopface.member;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,4 +26,27 @@ public class Member {
     private String address;
     private String detailAddress;
     private String zipCode;
+
+    @Builder
+    public Member(String id,
+                  String name, String password,
+                  String phone, String email,
+                  String bankName, String accountNum,
+                  LocalDateTime registerDate,
+                  String state, String type,
+                  String address, String detailAddress, String zipCode) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.phone = phone;
+        this.email = email;
+        this.bankName = bankName;
+        this.accountNum = accountNum;
+        this.registerDate = registerDate;
+        this.state = state;
+        this.type = type;
+        this.address = address;
+        this.detailAddress = detailAddress;
+        this.zipCode = zipCode;
+    }
 }

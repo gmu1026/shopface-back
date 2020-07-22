@@ -1,19 +1,27 @@
 package com.dreamsecurity.shopface.member;
 
+import com.dreamsecurity.shopface.alarm.Alarm;
+import com.dreamsecurity.shopface.alarm.AlarmMapper;
+import com.dreamsecurity.shopface.businessman.branch.Branch;
+import com.dreamsecurity.shopface.businessman.branch.BranchMapper;
+import com.dreamsecurity.shopface.employ.Employ;
+import com.dreamsecurity.shopface.employ.EmployMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
-//    private final EmployMapper employMapper;
-//    private final AlarmMapper alarmMapper;
-//    private final BranchMapper branchMapper;
+    private final EmployMapper employMapper;
+    private final AlarmMapper alarmMapper;
+    private final BranchMapper branchMapper;
 
     @Transactional
     @Override
@@ -28,26 +36,27 @@ public class MemberServiceImpl implements MemberService {
             member.setPassword(passwordEncoder.encode(member.getPassword()));
             memberMapper.insert(member);
 
-//            if (!"".equals(certiCode)) {
-//                Employ employ = new Employ();
-//                employ.setCertiCode(certiCode);
-//                Employ existEmploy = employMapper.select(employ);
-//
-//                employ.setNo(existEmploy.getNo());
-//                employ.setMemberId(member.getId());
-//                employ.setEmployDate(new Date(Calendar.getInstance().getTime().getTime()));
-//                employ.setCertiCode(null);
-//                employ.setState('C');
-//                employMapper.update(employ);
-//
-//                Branch existBranch = branchMapper.select(existEmploy.getBranchNo());
-//
-//                Alarm alarm = new Alarm();
-//                alarm.setAddresseeId(existBranch.getMemberId());
-//                alarm.setContents(member.getName() + "- 근무자가 합류했습니다.");
-//                alarm.setType("근무자 합류");
-//                alarmMapper.insert(alarm);
-//            }
+            if (!"".equals(certiCode)) {
+                Employ existEmploy = employMapper.select(Employ.builder()
+                                                                .certiCode(certiCode)
+                                                                .build());
+
+                employMapper.update(Employ.builder()
+                                            .no(existEmploy.getNo())
+                                            .memberId(member.getId())
+                                            .employDate(new Date(Calendar.getInstance().getTime().getTime()))
+                                            .certiCode(null)
+                                            .state('C')
+                                            .build());
+
+                Branch existBranch = branchMapper.select(existEmploy.getBranchNo());
+
+                alarmMapper.insert(Alarm.builder()
+                                        .addresseeId(existBranch.getMemberId())
+                                        .contents(member.getName() + "- 근무자가 합류했습니다.")
+                                        .type("근무자 합류")
+                                        .build());
+            }
 
             isSuccess = true;
         }
@@ -60,10 +69,9 @@ public class MemberServiceImpl implements MemberService {
     public boolean checkIdDuplicate(String id) {
         boolean isDuplicate = false;
 
-        Member member = new Member();
-        member.setId(id);
-
-        Member existMember = memberMapper.select(member);
+        Member existMember = memberMapper.select(Member.builder()
+                                                        .id(id)
+                                                        .build());
         if (existMember != null) {
             isDuplicate = true;
         }

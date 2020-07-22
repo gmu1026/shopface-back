@@ -1,6 +1,7 @@
 package com.dreamsecurity.shopface.alarm;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,4 +20,14 @@ public class Alarm {
     private String contents;
     private LocalDate registerDate;
     private char checkState;
+
+    @Builder
+    public Alarm(int no, String addresseeId, String type, String contents, LocalDate registerDate, char checkState) {
+        this.no = no;
+        this.addresseeId = addresseeId;
+        this.type = type;
+        this.contents = contents;
+        this.registerDate = registerDate;
+        this.checkState = checkState;
+    }
 }
