@@ -6,10 +6,10 @@ import java.util.List;
 
 @Mapper
 public interface MemberMapper {
-    void insert(Member member);
-    List<Member> selectAll(Member member);
-    Member select(Member member);
-    void update(Member member);
-    void delete(Member member);
-    int countMember(Member member);
+    public void insert(Member member);
+    public List<Member> selectAll(Member member);
+    public Member select(Member member);
+    public void update(Member member);
+    public void delete(Member member);
+    public int countMember(Member member);
 }

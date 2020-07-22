@@ -16,13 +16,10 @@ public class MemberController {
 
     //회원 등록
     @PostMapping("/member")
-    public String addMember(Member member, String certiCode, RedirectAttributes redirectAttributes) {
+    public ResponseEntity addMember(Member member, String certiCode, RedirectAttributes redirectAttributes) {
+        HttpStatus result = memberService.addMember(member, certiCode);
 
-        if (memberService.addMember(member, certiCode)) {
-            return "addSuccess";
-        } else {
-            return "addFail";
-        }
+        return new ResponseEntity(result);
     }
 
     //회원가입시 아이디중복확인 고려
@@ -43,41 +40,46 @@ public class MemberController {
 
     //회원 목록 조회 필요
     @GetMapping(value = "/member", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<Member> getMemberList(Member member) {
-        return memberService.getMemberList(member);
+    public ResponseEntity<List<Member>> getMemberList(Member member) {
+        HttpStatus result = HttpStatus.OK;
+
+        List<Member> members = memberService.getMemberList(member);
+        if (members == null) {
+            result = HttpStatus.BAD_REQUEST;
+        } else {
+            result = HttpStatus.OK;
+        }
+
+        return new ResponseEntity<>(members, result);
     }
 
     //회원 1개 조회 필요
     @GetMapping("/member/{id}")
-    public Member getMember(@PathVariable String id) {
-
-        Member member = new Member();
-        member.setId(id);
-
-        return memberService.getMember(member);
+    public ResponseEntity<Member> getMember(@PathVariable String id) {
+        HttpStatus result = HttpStatus.OK;
+        Member member = memberService.getMember(Member.builder()
+                                                        .id(id)
+                                                        .build());
+        if (member != null) {
+            result = HttpStatus.OK;
+        } else {
+            result = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(member, result);
     }
 
     //회원 수정 필요
     @PutMapping("/member/{id}")
-    public String updateMember(@PathVariable String id, Member member, String oldPassword,
+    public ResponseEntity updateMember(@PathVariable String id, Member member, String oldPassword,
                                      RedirectAttributes redirectAttributes) {
-
-        boolean isSuccess = memberService.editMember(member, oldPassword);
-        if(isSuccess) {
-           return "updateSuccess";
-        } else {
-            return "updateFail";
-        }
+        return new ResponseEntity(memberService.editMember(member, oldPassword));
     }
 
     //회원 삭제 필요
     @DeleteMapping("/member/{id}")
-    public String removeMember(@PathVariable String id) {
-        Member member = new Member();
-        member.setId(id);
-
-        memberService.removeMember(member);
-
-        return "";
+    public ResponseEntity removeMember(@PathVariable String id) {
+        return new ResponseEntity(memberService.removeMember(Member.builder()
+                                                                    .id(id)
+                                                                    .build()));
     }
 }

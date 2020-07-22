@@ -7,10 +7,14 @@ import com.dreamsecurity.shopface.businessman.branch.BranchMapper;
 import com.dreamsecurity.shopface.employ.Employ;
 import com.dreamsecurity.shopface.employ.EmployMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +29,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public boolean addMember(Member member, String certiCode) {
+    public HttpStatus addMember(Member member, String certiCode) {
+        HttpStatus status = null;
         boolean isSuccess = false;
 
         if (!member.getId().equals("")
@@ -58,10 +63,12 @@ public class MemberServiceImpl implements MemberService {
                                         .build());
             }
 
-            isSuccess = true;
+            status = HttpStatus.CREATED;
+        } else {// 400 : bad request
+            status = HttpStatus.BAD_REQUEST;
         }
 
-        return isSuccess;
+        return status;
     }
 
     @Transactional
@@ -93,7 +100,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public boolean editMember(Member member, String oldPassword) {
+    public HttpStatus editMember(Member member, String oldPassword) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         boolean isSuccess = false;
 
         Member existMember = memberMapper.select(member);
@@ -101,7 +109,7 @@ public class MemberServiceImpl implements MemberService {
             if (oldPassword == null || "".equals(oldPassword)) {
                 memberMapper.update(member);
 
-                isSuccess = true;
+                status = HttpStatus.OK;
             }
 
             if (member.getPassword() != null) {
@@ -111,29 +119,33 @@ public class MemberServiceImpl implements MemberService {
 
                     memberMapper.update(member);
 
+                    status = HttpStatus.OK;
                     isSuccess = true;
                 } else {
                     memberMapper.update(member);
 
-                    isSuccess = true;
+                    status = HttpStatus.OK;
                 }
             }
         }
 
-        return isSuccess;
+        return status;
     }
 
     @Transactional
     @Override
-    public boolean removeMember(Member member) {
+    public HttpStatus removeMember(Member member) {
+        HttpStatus status = HttpStatus.OK;
         if (member.getId() != null
                 && memberMapper.select(member) != null) {
             member.setState("D");
             memberMapper.update(member);
 
-            return true;
+            status = HttpStatus.OK;
         } else {
-            return false;
+            status = HttpStatus.BAD_REQUEST;
         }
+
+        return status;
     }
 }
