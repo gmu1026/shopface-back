@@ -1,7 +1,9 @@
 package com.dreamsecurity.shopface.employ;
 
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_EXCLUSIONPeer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,22 +28,27 @@ public class EmployServiceImpl implements EmployService{
 
     @Transactional
     @Override
-    public boolean addEmploy(Employ employ) {
-        boolean isSuccess = false;
+    public HttpStatus addEmploy(Employ employ) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
 
         if ((employ.getEmail() != null && employ.getEmail() != "")
                 &&(employ.getName() != null && employ.getName() != "")
                 &&employ.getBranchNo() != 0) {
             employ.setCertiCode(verificationAuthCode(employ));
 
-            isSuccess = sendInviteMessage(employ);
+            boolean isSuccess = sendInviteMessage(employ);
 
             if(isSuccess == true) {
                 employMapper.insert(employ);
+                status = HttpStatus.OK;
+            } else {
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
+        } else {
+            status = HttpStatus.BAD_REQUEST;
         }
 
-        return isSuccess;
+        return status;
     }
 
     @Override
@@ -122,29 +129,31 @@ public class EmployServiceImpl implements EmployService{
 
     @Transactional
     @Override
-    public boolean editEmploy(Employ employ) {
-        boolean isSuccess = false;
+    public HttpStatus editEmploy(Employ employ) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
 
         if (employ.getName() != null && employ.getName() != "") {
             employMapper.update(employ);
-            isSuccess = true;
+
         } else if (employ.getCertiCode() != null) {
             Employ existEmploy = employMapper.select(employ);
             existEmploy.setState('C');
             existEmploy.setEmployDate(new Date(Calendar.getInstance().getTime().getTime()));
 
             employMapper.update(existEmploy);
+            status = HttpStatus.OK;
         }
 
-        return isSuccess;
+        return status;
     }
 
     @Transactional
     @Override
-    public boolean removeEmploy(Employ employ) {
+    public HttpStatus removeEmploy(Employ employ) {
+
         employMapper.delete(employ);
 
-        return true;
+        return HttpStatus.OK;
     }
 
     @Transactional
