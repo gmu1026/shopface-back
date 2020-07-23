@@ -1,12 +1,11 @@
 spring:
   profiles:
     include: db
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_7k26io4kJ
-          jwk-set-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_7k26io4kJ/.well-known/jwks.json
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_7k26io4kJ/.well-known/jwks.json
 logging:
   level:
     root: WARN
@@ -14,8 +13,14 @@ logging:
     com.dreamsecurity.shopface: TRACE
 
 mybatis:
+  mapper-locations: classpath:**/**/*Mapper.xml
   configuration:
     map-underscore-to-camel-case: true
     default-fetch-size: 100
     default-statement-timeout: 60
-    mapper-locations: classpath:/**/**/*Mapper.xml
+
+security:
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_7k26io4kJ/.well-known/jwks.json
