@@ -12,3 +12,9 @@ logging:
     root: WARN
     org.springframework.web: TRACE
     com.dreamsecurity.shopface: TRACE
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 60
