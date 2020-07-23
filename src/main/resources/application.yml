@@ -6,7 +6,7 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_7k26io4kJ
-          jwk-set-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_7k26io4kJ/.well-known/openid-configuration
+          jwk-set-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_7k26io4kJ/.well-known/jwks.json
 logging:
   level:
     root: WARN
