@@ -1,5 +1,13 @@
 spring:
   profiles:
     include: db
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_7k26io4kJ
+logging:
+  level:
+    root: WARN
+    org.springframework.web: TRACE
+    com.dreamsecurity.shopface: TRACE
