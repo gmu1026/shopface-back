@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    include: db
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_7k26io4kJ/.well-known/jwks.json
+logging:
+  level:
+    root: WARN
+    org.springframework.web: TRACE
+    com.dreamsecurity.shopface: TRACE
+
+mybatis:
+  mapper-locations: classpath:**/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 60
+
+security:
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_7k26io4kJ/.well-known/jwks.json
