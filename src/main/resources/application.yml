@@ -14,6 +14,7 @@ mybatis:
     map-underscore-to-camel-case: true
     default-fetch-size: 100
     default-statement-timeout: 60
+  type-aliases-package: com.dreamsecurity.shopface
 
 security:
   oauth2:
