@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = { "http://localhost:3000", "https://cproduction.net" }, allowCredentials = "true")
+//@CrossOrigin(origins = { "http://localhost:3000", "https://cproduction.net" }, allowCredentials = "true")
 @RequiredArgsConstructor
 @RestController
 public class SampleApiController {
