@@ -19,6 +19,16 @@ public class SampleApiController {
                 .builder()
                 .status(HttpStatus.OK.toString())
                 .message("Success")
+                .data(sampleApiService.getSample(no))
+                .build(), HttpStatus.OK);
+    }
+
+    @GetMapping("/sample")
+    public ResponseEntity<SampleMessage> getSampleList() {
+        return new ResponseEntity<SampleMessage>(new SampleMessage()
+                .builder()
+                .status(HttpStatus.OK.toString())
+                .message("Success")
                 .data(sampleApiService.getSamplelist())
                 .build(), HttpStatus.OK);
     }
