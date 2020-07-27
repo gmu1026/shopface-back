@@ -19,7 +19,7 @@ public class SampleApiController {
                 .builder()
                 .status(HttpStatus.OK.toString())
                 .message("Success")
-                .data(sampleApiService.getSample(no))
+                .data(sampleApiService.getSamplelist())
                 .build(), HttpStatus.OK);
     }
 }
