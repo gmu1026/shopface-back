@@ -18,10 +18,10 @@ import java.util.Random;
 @Service
 public class EmployServiceImpl implements EmployService {
     private final EmployMapper employMapper;
-    private final JavaMailSender mailSender;
+//    private final JavaMailSender mailSender;
 
-    @Value("${secretKey}")
-    private String secretKey;
+//    @Value("${secretKey}")
+//    private String secretKey;
 
     @Override
     public boolean addEmploy(Employ employ) {
@@ -107,14 +107,14 @@ public class EmployServiceImpl implements EmployService {
     public String checkCertiCode(Employ employ, String expiredDate) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        CryptogramImpl cryptogram = new CryptogramImpl(secretKey);
+//        CryptogramImpl cryptogram = new CryptogramImpl(secretKey);
         String decryptDate = "";
         Date targetDate = null;
         Date currentDate = null;
         try {
-            decryptDate = cryptogram.decrypt(expiredDate);
-            targetDate = simpleDateFormat.parse(decryptDate);
-            currentDate = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+//            decryptDate = cryptogram.decrypt(expiredDate);
+//            targetDate = simpleDateFormat.parse(decryptDate);
+//            currentDate = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,7 +141,7 @@ public class EmployServiceImpl implements EmployService {
 
         SimpleMailMessage message = createInviteMessage(employ);
         try {
-            mailSender.send(message);
+//            mailSender.send(message);
 
             isSuccess = true;
         } catch (MailException e) {
@@ -157,8 +157,8 @@ public class EmployServiceImpl implements EmployService {
         String encryptDate = null;
 
         try {
-            CryptogramImpl cryptogramImpl = new CryptogramImpl(secretKey);
-            encryptDate = cryptogramImpl.encrypt(currentDate);
+//            CryptogramImpl cryptogramImpl = new CryptogramImpl(secretKey);
+//            encryptDate = cryptogramImpl.encrypt(currentDate);
         } catch (Exception e) {
             e.printStackTrace();
         }

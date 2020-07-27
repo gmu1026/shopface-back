@@ -8,7 +8,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 @EnableResourceServer
 @SpringBootApplication
-@MapperScan("com.dreamsecurity.shopface")
 public class ShopfaceRestApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ShopfaceRestApplication.class, args);

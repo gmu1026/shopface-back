@@ -17,10 +17,10 @@ import java.util.List;
 public class BranchServiceImpl implements BranchService {
     private final BranchMapper branchMapper;
     private final EmployMapper employMapper;
-    private final AmazonS3 awsS3Client;
+//    private final AmazonS3 awsS3Client;
 
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
+//    @Value("${cloud.aws.s3.bucket}")
+//    private String bucket;
 
     @Override
     public boolean addBranch(Branch branch) {
@@ -45,12 +45,12 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public boolean editBranch(Branch branch, MultipartFile licenseImage) throws IOException {
         boolean isSuccess = false;
-        String fileName = licenseImage.getOriginalFilename();
-        awsS3Client.putObject(new PutObjectRequest(this.bucket, fileName, licenseImage.getInputStream(), null));
+//        String fileName = licenseImage.getOriginalFilename();
+//        awsS3Client.putObject(new PutObjectRequest(this.bucket, fileName, licenseImage.getInputStream(), null));
 
-        String url = awsS3Client.getUrl(this.bucket, fileName).toString();
+//        String url = awsS3Client.getUrl(this.bucket, fileName).toString();
 
-        branch.setBusinessLicensePath(awsS3Client.getUrl(this.bucket, fileName).toString());
+//        branch.setBusinessLicensePath(awsS3Client.getUrl(this.bucket, fileName).toString());
 
         this.branchMapper.update(branch);
         isSuccess = true;

@@ -4,14 +4,14 @@ import lombok.Getter;
 
 @Getter
 public class CommonException extends RuntimeException {
-    private ErrorCode errorCode;
+    private TestErrorCode errorCode;
 
-    public CommonException(String message, ErrorCode errorCode) {
+    public CommonException(String message, TestErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;
     }
 
-    public CommonException(ErrorCode errorCode) {
+    public CommonException(TestErrorCode errorCode) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
     }

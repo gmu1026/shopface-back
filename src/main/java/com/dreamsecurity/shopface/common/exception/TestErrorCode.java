@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum ErrorCode {
+public enum TestErrorCode {
     // common
     INVALID_INPUT_VALUE(400, "M001", "Invalid Input Value"),
 
@@ -30,7 +30,7 @@ public enum ErrorCode {
     private final String message;
     private int status;
 
-    ErrorCode(final int status, String code, String message) {
+    TestErrorCode(final int status, String code, String message) {
         this.status = status;
         this.code = code;
         this.message = message;
