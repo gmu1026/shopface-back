@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = { "http://localhost:3000" }, allowCredentials = "true")
 @RequiredArgsConstructor
 @RestController
 public class SampleApiController {
@@ -21,6 +20,16 @@ public class SampleApiController {
                 .status(HttpStatus.OK.toString())
                 .message("Success")
                 .data(sampleApiService.getSample(no))
+                .build(), HttpStatus.OK);
+    }
+
+    @GetMapping("/sample")
+    public ResponseEntity<SampleMessage> getSampleList() {
+        return new ResponseEntity<SampleMessage>(new SampleMessage()
+                .builder()
+                .status(HttpStatus.OK.toString())
+                .message("Success")
+                .data(sampleApiService.getSamplelist())
                 .build(), HttpStatus.OK);
     }
 }

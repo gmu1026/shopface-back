@@ -1,11 +1,7 @@
 spring:
   profiles:
     include: db
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          jwk-set-uri: https://cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_7k26io4kJ/.well-known/jwks.json
+
 logging:
   level:
     root: WARN
@@ -18,6 +14,7 @@ mybatis:
     map-underscore-to-camel-case: true
     default-fetch-size: 100
     default-statement-timeout: 60
+  type-aliases-package: com.dreamsecurity.shopface
 
 security:
   oauth2:

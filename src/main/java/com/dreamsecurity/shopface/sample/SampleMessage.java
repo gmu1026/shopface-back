@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 public class SampleMessage {
     private String status;
     private String message;
-    private Sample data;
+    private Object data;
 
     @Builder
-    public SampleMessage (String status, String message, Sample data) {
+    public SampleMessage (String status, String message, Object data) {
         this.status = status;
         this.message = message;
         this.data = data;

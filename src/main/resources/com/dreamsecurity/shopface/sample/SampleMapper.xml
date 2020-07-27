@@ -5,4 +5,8 @@
     <select id="select" parameterType="long" resultType="com.dreamsecurity.shopface.sample.Sample">
         SELECT * FROM SAMPLE WHERE NO= #{no}
     </select>
+
+    <select id="selectAll" resultType="com.dreamsecurity.shopface.sample.Sample">
+        SELECT * FROM SAMPLE
+    </select>
 </mapper>
