@@ -21,4 +21,8 @@ public class Employ {
     private LocalDateTime employDate;
     private LocalDateTime closeDate;
     private String state;
+    private String email;
+    private String phone;
+    private String bankName;
+    private long accountNum;
 }

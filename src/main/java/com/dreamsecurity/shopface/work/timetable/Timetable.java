@@ -1,5 +1,6 @@
 package com.dreamsecurity.shopface.work.timetable;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,4 +20,15 @@ public class Timetable {
     private String occupationName;
     private String occupationColor;
     private LocalDateTime registerDate;
+
+    @Builder
+    public Timetable(long no, long branchNo, LocalDateTime workStartTime, LocalDateTime workEndTime, String occupationName, String occupationColor, LocalDateTime registerDate) {
+        this.no = no;
+        this.branchNo = branchNo;
+        this.workStartTime = workStartTime;
+        this.workEndTime = workEndTime;
+        this.occupationName = occupationName;
+        this.occupationColor = occupationColor;
+        this.registerDate = registerDate;
+    }
 }
