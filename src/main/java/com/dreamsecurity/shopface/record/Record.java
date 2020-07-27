@@ -1,5 +1,6 @@
 package com.dreamsecurity.shopface.record;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,4 +31,34 @@ public class Record {
     private long salaryPay;
     private long evaluation;
     private String note;
+
+    @Builder
+    public Record(long no,
+                  String businessmanId, String businessmanName,
+                  long branchNo, String branchName, String branchPhone,
+                  String memberId, String memberName, String memberPhone,
+                  LocalDateTime workStartTime, LocalDateTime workEndTime,
+                  LocalDateTime workingTime, LocalDateTime quittingTime,
+                  String occupationName,
+                  long salaryPlan, long salaryPay,
+                  long evaluation, String note) {
+        this.no = no;
+        this.businessmanId = businessmanId;
+        this.businessmanName = businessmanName;
+        this.branchNo = branchNo;
+        this.branchName = branchName;
+        this.branchPhone = branchPhone;
+        this.memberId = memberId;
+        this.memberName = memberName;
+        this.memberPhone = memberPhone;
+        this.workStartTime = workStartTime;
+        this.workEndTime = workEndTime;
+        this.workingTime = workingTime;
+        this.quittingTime = quittingTime;
+        this.occupationName = occupationName;
+        this.salaryPlan = salaryPlan;
+        this.salaryPay = salaryPay;
+        this.evaluation = evaluation;
+        this.note = note;
+    }
 }

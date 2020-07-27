@@ -11,4 +11,9 @@ import lombok.Setter;
 public class TimetableSchedule {
     private Timetable timetable;
     private Schedule schedule;
+
+    public TimetableSchedule(Timetable timetable, Schedule schedule) {
+        this.timetable = timetable;
+        this.schedule = schedule;
+    }
 }

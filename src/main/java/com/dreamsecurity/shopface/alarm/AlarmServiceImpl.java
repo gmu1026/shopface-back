@@ -12,21 +12,41 @@ public class AlarmServiceImpl implements AlarmService {
 
     @Override
     public boolean addAlarm(Alarm alarm) {
-        return false;
+        alarmMapper.insert(alarm);
+        return true;
     }
 
     @Override
     public List<Alarm> getAlarmList(Alarm alarm) {
-        return null;
+        return alarmMapper.selectAll(alarm);
     }
 
     @Override
     public boolean updateAlarm(Alarm alarm) {
-        return false;
+        boolean isSuccess = false;
+
+        Alarm existAlarm = alarmMapper.select(alarm);
+        if (existAlarm != null) {
+            alarmMapper.update(alarm);
+
+            isSuccess = true;
+        }
+
+        return isSuccess;
     }
 
     @Override
     public boolean removeAlarm(Alarm alarm) {
-        return false;
+
+        boolean isSuccess = false;
+
+        Alarm existAlarm = alarmMapper.select(alarm);
+        if (existAlarm != null) {
+            alarmMapper.delete(alarm);
+
+            isSuccess = true;
+        }
+
+        return isSuccess;
     }
 }
