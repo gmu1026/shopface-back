@@ -1,9 +1,6 @@
 package com.dreamsecurity.shopface.branch;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.apache.ibatis.type.Alias;
 
 import java.time.LocalDateTime;
@@ -11,6 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @Alias("Branch")
 public class Branch {
     private long no;

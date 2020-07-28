@@ -2,6 +2,7 @@ package com.dreamsecurity.shopface.branch;
 
 import com.dreamsecurity.shopface.Message;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RequiredArgsConstructor
+@Slf4j
 @RestController
 public class BranchController {
     private final BranchService branchService;
@@ -36,6 +38,8 @@ public class BranchController {
 
     @PostMapping(value = "/branch")
     public ResponseEntity<Message> addBranch(@RequestBody Branch branch) {
+        log.info(branch.toString());
+
         if (this.branchService.addBranch(branch)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()
