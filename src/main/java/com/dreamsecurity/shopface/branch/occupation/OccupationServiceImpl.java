@@ -14,16 +14,21 @@ public class OccupationServiceImpl implements OccupationService {
     public boolean addOccupation(Occupation occupation) {
         boolean isSuccess = false;
 
-        //TODO branchNo 값 수신시 수정
-        //if ((occupation.getName() != null && occupation.getName() != "") && (occupation.getBranchNo() != 0))
-        if (occupation.getName() != null
-                && occupation.getName() != "") {
-            occupationMapper.insert(occupation);
+        try {
+            //TODO branchNo 값 수신시 수정
+            //if ((occupation.getName() != null && occupation.getName() != "") && (occupation.getBranchNo() != 0))
+            if (occupation.getName() != null
+                    && occupation.getName() != "") {
+                occupationMapper.insert(occupation);
 
-            isSuccess = true;
+                isSuccess = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return isSuccess;
         }
 
-        return isSuccess;
     }
 
     @Override

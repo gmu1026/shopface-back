@@ -6,5 +6,5 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface ScheduleService {
-    public ResponseEntity<Message> getInfo(Schedule schedule);
+    public List<ScheduleTimetable> getInfo(Schedule schedule);
 }

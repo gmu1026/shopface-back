@@ -18,14 +18,14 @@ public class AlarmController {
                .builder()
                .status(HttpStatus.OK.toString())
                .message("Success")
-               .data(alarmService.addAlarm(alarm))
+               .data(alarmService.getAlarmList(alarm))
                .build(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/alarm/{no}")
-    public ResponseEntity getAlarm() {
-        return null;
-    }
+//    @GetMapping(value = "/alarm/{no}")
+//    public ResponseEntity getAlarm() {
+//        return null;
+//    }
 
     @PostMapping(value = "/alarm")
     public ResponseEntity addAlarm(Alarm alarm) {

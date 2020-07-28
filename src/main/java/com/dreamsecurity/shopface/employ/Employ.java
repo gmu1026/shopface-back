@@ -20,7 +20,7 @@ public class Employ {
     private String certiCode;
     private LocalDateTime employDate;
     private LocalDateTime closeDate;
-    private String state;
+    private char state;
     private String email;
     private String phone;
     private String bankName;

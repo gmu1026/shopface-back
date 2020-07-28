@@ -34,7 +34,7 @@ dependencies {
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-resource-server', version: '2.3.1.RELEASE'
 	compile group: 'org.springframework.security', name: 'spring-security-oauth2-jose', version: '5.3.3.RELEASE'
 //	compile group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '8.19'
-	implementation 'org.springframework.cloud:spring-cloud-starter-aws'
+//	implementation 'org.springframework.cloud:spring-cloud-starter-aws'
 	compile group: 'com.amazonaws', name: 'aws-java-sdk-s3'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

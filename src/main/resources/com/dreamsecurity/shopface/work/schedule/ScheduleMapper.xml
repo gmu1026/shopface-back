@@ -29,7 +29,7 @@
         <result column="ADDRESS" property="address" />
         <result column="DETAIL_ADDRESS" property="detailAddress" />
         <result column="ZIP_CODE" property="zipCode" />
-        <result column="BUSINESS_PATH" property="businessPath" />
+        <result column="BUSINESS_L_PATH" property="businessLicensePath" />
         <result column="STATE" property="state" />
         <result column="APPROVAL_STATUS" property="approvalStatus" />
     </resultMap>

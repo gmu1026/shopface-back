@@ -61,14 +61,13 @@ public class EmployServiceImpl implements EmployService {
             isSuccess = true;
         } else if (employ.getCertiCode() != null) {
             Employ existEmploy = employMapper.select(employ);
-            existEmploy.setState("C");
+            existEmploy.setState('C');
             existEmploy.setEmployDate(LocalDateTime.now());
 
             employMapper.update(existEmploy);
         }
 
         return isSuccess;
-
     }
 
     @Override
@@ -193,7 +192,7 @@ public class EmployServiceImpl implements EmployService {
                     savedEmploy.setCloseDate(null);
 
                     employMapper.update(savedEmploy);
-                    savedEmploy.setState("B");
+                    savedEmploy.setState('B');
                 }
 
                 employMapper.update(savedEmploy);

@@ -4,6 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dreamsecurity.shopface.branch.BranchMapper">
+    <resultMap type="Branch" id="Branch">
+        <id column="NO" property="no" />
+        <result column="MEMBER_ID" property="memberId" />
+        <result column="NAME" property="name" />
+        <result column="PHONE" property="phone" />
+        <result column="REGISTER_DATE" property="registerDate" />
+        <result column="ADDRESS" property="address" />
+        <result column="DETAIL_ADDRESS" property="detailAddress" />
+        <result column="ZIP_CODE" property="zipCode" />
+        <result column="BUSINESS_L_PATH" property="businessLicensePath" />
+        <result column="STATE" property="state" />
+        <result column="APPROVAL_STATUS" property="approvalStatus" />
+    </resultMap>
+
     <insert id="insert" parameterType="Branch">
 		INSERT INTO BRANCH(NO, MEMBER_ID, NAME, PHONE, REGISTER_DATE, ADDRESS, DETAIL_ADDRESS, ZIP_CODE, STATE, APPROVAL_STATUS)
 		VALUES(BRANCH_NO_SEQ.NEXTVAL, #{memberId}, #{name}, #{phone}, SYSDATE, #{address}, #{detailAddress}, #{zipCode}, 'A', 'W')
@@ -15,7 +29,7 @@
         ,MEMBER_ID
         ,NAME
         ,PHONE
-        ,TO_CHAR(REGISTER_DATE, 'YYYY-MM-DD') AS "REGISTER_DATE"
+        ,REGISTER_DATE
         ,ADDRESS
         ,DETAIL_ADDRESS
         ,ZIP_CODE
@@ -40,7 +54,7 @@
 			,MEMBER_ID
 			,NAME
 			,PHONE
-			,TO_CHAR(REGISTER_DATE, 'YYYY-MM-DD') AS "REGISTER_DATE"
+			,REGISTER_DATE
 			,ADDRESS
 			,DETAIL_ADDRESS
 			,ZIP_CODE
@@ -75,8 +89,8 @@
             <if test="state != null and state != ''">
                 state = #{state},
             </if>
-            <if test="businessLPath != null and businessLPath != ''">
-                BUSINESS_L_PATH = #{businessLPath}
+            <if test="businessLicensePath != null and businessLicensePath != ''">
+                BUSINESS_L_PATH = #{businessLicensePath}
             </if>
         </set>
         WHERE NO = #{no}

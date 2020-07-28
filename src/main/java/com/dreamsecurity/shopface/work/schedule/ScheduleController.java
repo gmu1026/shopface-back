@@ -18,10 +18,10 @@ public class ScheduleController {
                 .status(HttpStatus.OK.toString())
                 .message("Success")
                 .data(this.scheduleService.getInfo(Schedule
-                        .builder()
-                        .memberId(memberId)
-                        .build()))
-                .build(), HttpStatus.OK);
+                                                        .builder()
+                                                        .memberId(memberId)
+                                                        .build()))
+                                                        .build(), HttpStatus.OK);
     }
 
 //    @GetMapping(value = "/schedule/{no}")

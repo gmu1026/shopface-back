@@ -20,9 +20,11 @@ public class Timetable {
     private String occupationName;
     private String occupationColor;
     private LocalDateTime registerDate;
+    private String occupName;
+    private String occupColor;
 
     @Builder
-    public Timetable(long no, long branchNo, LocalDateTime workStartTime, LocalDateTime workEndTime, String occupationName, String occupationColor, LocalDateTime registerDate) {
+    public Timetable(long no, long branchNo, LocalDateTime workStartTime, LocalDateTime workEndTime, String occupationName, String occupationColor, LocalDateTime registerDate, String occupName, String occupColor) {
         this.no = no;
         this.branchNo = branchNo;
         this.workStartTime = workStartTime;
@@ -30,5 +32,7 @@ public class Timetable {
         this.occupationName = occupationName;
         this.occupationColor = occupationColor;
         this.registerDate = registerDate;
+        this.occupName = occupName;
+        this.occupColor = occupColor;
     }
 }

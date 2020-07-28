@@ -17,7 +17,7 @@ public class OccupationController {
                 .builder()
                 .status(HttpStatus.OK.toString())
                 .message("Success")
-                .data(occupationService.addOccupation(occupation))
+                .data(occupationService.getOccupationList(occupation))
                 .build(), HttpStatus.OK);
     }
 

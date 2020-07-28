@@ -4,22 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dreamsecurity.shopface.work.timetable.TimetableMapper">
-    <insert id="insert" parameterType="timetable">
+    <insert id="insert" parameterType="Timetable">
 		INSERT INTO TIMETABLE(NO, BRANCH_NO, WORK_START_TIME, WORK_END_TIME, OCCUP_NAME, OCCUP_COLOR, REGISTER_DATE)
 		VALUES(TIMETABLE_NO_SEQ.NEXTVAL
 				,#{branchNo}
-				,TO_DATE(#{workStartTime}, 'YYYY-MM-DD HH24:MI:SS')
-				,TO_DATE(#{workEndTime}, 'YYYY-MM-DD HH24:MI:SS')
+				,#{workStartTime}
+				,#{workEndTime}
 				,#{occupName}
 				,#{occupColor}
 				,SYSDATE)
 	</insert>
-    <select id="select" parameterType="timetable" resultType="timeTable">
+    <select id="select" parameterType="Timetable" resultType="Timetable">
 		SELECT
 			 NO AS TIMETABLE_NO
 			,BRANCH_NO
-			,TO_CHAR(WORK_START_TIME, 'YYYY-MM-DD HH24:MI:SS') AS "WORK_START_TIME"
-			,TO_CHAR(WORK_END_TIME, 'YYYY-MM-DD HH24:MI:SS') AS "WORK_END_TIME"
+			,WORK_START_TIME
+			,WORK_END_TIME
 			,OCCUP_NAME
 			,OCCUP_COLOR
 			,REGISTER_DATE
@@ -27,12 +27,12 @@
 		WHERE NO = #{no}
 	</select>
 
-    <select id="selectAll" parameterType="timetable" resultType="timeTable">
+    <select id="selectAll" parameterType="Timetable" resultType="Timetable">
         SELECT
-             NO AS TIMETABLE_NO
+             NO
             ,BRANCH_NO
-            ,TO_CHAR(WORK_START_TIME, 'YYYY-MM-DD HH24:MI:SS') AS "WORK_START_TIME"
-            ,TO_CHAR(WORK_END_TIME, 'YYYY-MM-DD HH24:MI:SS') AS "WORK_END_TIME"
+            ,WORK_START_TIME
+            ,WORK_END_TIME
             ,OCCUP_NAME
             ,OCCUP_COLOR
             ,REGISTER_DATE
@@ -40,10 +40,10 @@
         <where>
             BRANCH_NO = #{branchNo}
             <if test="workStartTime != null and workStartTime != ''">
-                AND WORK_START_TIME = TO_DATE(#{workStartTime}, 'YYYY-MM-DD HH24:MI:SS')
+                AND WORK_START_TIME = #{workStartTime}
             </if>
             <if test="workEndTime != null and workEndTime != ''">
-                AND WORK_END_TIME = TO_DATE(#{workEndTime}, 'YYYY-MM-DD HH24:MI:SS')
+                AND WORK_END_TIME = #{workEndTime}
             </if>
             <if test="occupName != null and occupName != ''">
                 AND OCCUP_NAME = #{occupName}
@@ -58,10 +58,10 @@
         UPDATE TIMETABLE
         <set>
             <if test="workStartTime != null and workStartTime != ''">
-                WORK_START_TIME = TO_DATE(#{workStartTime}, 'YYYY-MM-DD HH24:MI:SS'),
+                WORK_START_TIME = #{workStartTime},
             </if>
             <if test="workEndTime != null and workEndTime != ''">
-                WORK_END_TIME = TO_DATE(#{workEndTime}, 'YYYY-MM-DD HH24:MI:SS'),
+                WORK_END_TIME = #{workEndTime},
             </if>
             <if test="occupName != null and occupName != ''">
                 OCCUP_NAME = #{occupName},
