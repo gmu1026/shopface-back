@@ -60,25 +60,20 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public boolean removeBranch(Branch branch) {
         if (branch.getNo() > 0){
-            Branch result = this.branchMapper.select(Branch.builder()
-                                                            .no(branch.getNo())
-                                                            .build());
+            Branch result = this.branchMapper.select(branch);
             if (result != null) {
                 String resultId = result.getMemberId();
-                if (resultId.equals(branch.getMemberId())) {
-                    Employ employ = new Employ();
-                    employ.setBranchNo(branch.getNo());
-
-                    List<Employ> employs = this.employMapper.selectAll(employ);
-                    if (employs != null && employs.size() >= 1) {
-                        branch.setState("D");
-                        this.branchMapper.update(branch);
-                        return true;
-                    } else {
-                        this.branchMapper.delete(branch);
-                        return true;
-                    }
-                } return false;
+                Employ employ = new Employ();
+                employ.setBranchNo(branch.getNo());
+                List<Employ> employs = this.employMapper.selectAll(employ);
+                if (employs != null && employs.size() >= 1) {
+                    branch.setState("D");
+                    this.branchMapper.update(branch);
+                    return true;
+                } else {
+                    this.branchMapper.delete(branch);
+                    return true;
+                }
             } return false;
         } return false;
     }
