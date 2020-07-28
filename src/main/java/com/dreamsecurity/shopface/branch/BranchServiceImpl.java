@@ -59,9 +59,7 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public boolean removeBranch(Branch branch) {
-        if (branch.getNo() > 0
-                && branch.getMemberId() != null
-                && !"".equals(branch.getMemberId())){
+        if (branch.getNo() > 0){
             Branch result = this.branchMapper.select(Branch.builder()
                                                             .no(branch.getNo())
                                                             .build());
