@@ -1,0 +1,143 @@
+package com.dreamsecurity.shopface.member;
+
+import com.dreamsecurity.shopface.alarm.Alarm;
+import com.dreamsecurity.shopface.alarm.AlarmMapper;
+import com.dreamsecurity.shopface.branch.Branch;
+import com.dreamsecurity.shopface.branch.BranchMapper;
+import com.dreamsecurity.shopface.employ.Employ;
+import com.dreamsecurity.shopface.employ.EmployMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@RequiredArgsConstructor
+@Service
+public class MemberServiceImpl implements MemberService {
+    private final MemberMapper memberMapper;
+    private final EmployMapper employMapper;
+    private final AlarmMapper alarmMapper;
+    private final BranchMapper branchMapper;
+
+    @Transactional
+    @Override
+    public boolean addMember(Member member, String certiCode) {
+        boolean isSuccess = false;
+
+        if (!member.getId().equals("")
+                && !member.getName().equals("")
+                && !member.getPassword().equals("")
+                && !member.getPhone().equals("")) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            member.setPassword(passwordEncoder.encode(member.getPassword()));
+            memberMapper.insert(member);
+
+            if (!"".equals(certiCode)) {
+                Employ employ = new Employ();
+                employ.setCertiCode(certiCode);
+                Employ existEmploy = employMapper.select(employ);
+
+                employ.setNo(existEmploy.getNo());
+                employ.setMemberId(member.getId());
+                employ.setEmployDate(LocalDateTime.now());
+                employ.setCertiCode(null);
+                employ.setState("C");
+                employMapper.update(employ);
+
+                Branch branch = new Branch();
+                branch.setNo(existEmploy.getBranchNo());
+                Branch existBranch = branchMapper.select(branch);
+
+                Alarm alarm = new Alarm();
+                alarm.setAddresseeId(existBranch.getMemberId());
+                alarm.setContents(member.getName() + "- 근무자가 합류했습니다.");
+                alarm.setType("근무자 합류");
+                alarmMapper.insert(alarm);
+            }
+
+            isSuccess = true;
+        }
+
+        return isSuccess;
+    }
+
+    @Transactional
+    @Override
+    public boolean checkIdDuplicate(String id) {
+        boolean isDuplicate = false;
+
+        Member member = new Member();
+        member.setId(id);
+
+        Member existMember = memberMapper.select(member);
+        if (existMember != null) {
+            isDuplicate = true;
+        }
+
+        return isDuplicate;
+    }
+
+    @Transactional
+    @Override
+    public List<Member> getMemberList(Member member) {
+        return memberMapper.selectAll(member);
+    }
+
+    @Transactional
+    @Override
+    public Member getMember(Member member) {
+        return memberMapper.select(member);
+    }
+
+    @Transactional
+    @Override
+    public boolean editMember(Member member, String oldPassword) {
+        boolean isSuccess = false;
+
+        Member target = new Member();
+        target.setId(member.getId());
+
+        Member existMember = memberMapper.select(target);
+        if (existMember != null) {
+            if (oldPassword == null || "".equals(oldPassword)) {
+                memberMapper.update(member);
+
+                isSuccess = true;
+            }
+
+            if (member.getPassword() != null) {
+                if (existMember.getPassword().equals(oldPassword)) {
+                    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                    member.setPassword(passwordEncoder.encode(member.getPassword()));
+
+                    memberMapper.update(member);
+
+                    isSuccess = true;
+                } else {
+                    memberMapper.update(member);
+
+                    isSuccess = true;
+                }
+            }
+        }
+
+        return isSuccess;
+    }
+
+    @Transactional
+    @Override
+    public boolean removeMember(Member member) {
+        if (member.getId() != null
+                && memberMapper.select(member) != null) {
+            member.setState("D");
+            memberMapper.update(member);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
