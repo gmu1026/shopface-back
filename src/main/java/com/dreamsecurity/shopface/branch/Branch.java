@@ -19,7 +19,7 @@ public class Branch {
     private String address;
     private String detailAddress;
     private String zipCode;
-    private String businessLicensePath;
+    private String businessLPath;
     private String state;
     private String approvalStatus;
 
@@ -28,7 +28,7 @@ public class Branch {
                   String memberId, String name, String phone,
                   LocalDateTime registerDate,
                   String address, String detailAddress, String zipCode,
-                  String businessLicensePath,
+                  String businessLPath,
                   String state, String approvalStatus) {
         this.no = no;
         this.memberId = memberId;
@@ -38,7 +38,7 @@ public class Branch {
         this.address = address;
         this.detailAddress = detailAddress;
         this.zipCode = zipCode;
-        this.businessLicensePath = businessLicensePath;
+        this.businessLPath = businessLPath;
         this.state = state;
         this.approvalStatus = approvalStatus;
     }
