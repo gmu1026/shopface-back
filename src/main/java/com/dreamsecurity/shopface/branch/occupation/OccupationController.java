@@ -11,19 +11,14 @@ import org.springframework.web.bind.annotation.*;
 public class OccupationController {
     private final OccupationService occupationService;
 
-    @GetMapping(value = "/occupation")
-    public ResponseEntity<Message> listOccupation(Occupation occupation) {
+    @GetMapping(value = "/occupation/{no}")
+    public ResponseEntity<Message> listOccupation(@PathVariable("no") long branchNo) {
         return new ResponseEntity<Message>(new Message()
                 .builder()
                 .status(HttpStatus.OK.toString())
                 .message("Success")
-                .data(occupationService.addOccupation(occupation))
+                .data(occupationService.getOccupationList(branchNo))
                 .build(), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/occupation/{no}")
-    public ResponseEntity<Message> getOccupation(@PathVariable long no) {
-        return null;
     }
 
     @PostMapping(value = "/occupation")

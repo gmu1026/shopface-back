@@ -27,7 +27,10 @@ public class OccupationServiceImpl implements OccupationService {
     }
 
     @Override
-    public List<Occupation> getOccupationList(Occupation occupation) {
+    public List<Occupation> getOccupationList(long branchNo) {
+        Occupation occupation = new Occupation();
+        occupation.setBranchNo(branchNo);
+
         return occupationMapper.selectAll(occupation);
     }
 
