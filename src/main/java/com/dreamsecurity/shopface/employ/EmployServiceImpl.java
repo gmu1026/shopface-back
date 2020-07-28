@@ -18,10 +18,10 @@ import java.util.Random;
 @Service
 public class EmployServiceImpl implements EmployService {
     private final EmployMapper employMapper;
-    private final JavaMailSender mailSender;
+    //private final JavaMailSender mailSender;
 
-    @Value("${secretKey}")
-    private String secretKey;
+//    @Value("${secretKey}")
+//    private String secretKey;
 
     @Override
     public boolean addEmploy(Employ employ) {
@@ -105,32 +105,32 @@ public class EmployServiceImpl implements EmployService {
 
     @Override
     public String checkCertiCode(Employ employ, String expiredDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        CryptogramImpl cryptogram = new CryptogramImpl(secretKey);
-        String decryptDate = "";
-        Date targetDate = null;
-        Date currentDate = null;
-        try {
-            decryptDate = cryptogram.decrypt(expiredDate);
-            targetDate = simpleDateFormat.parse(decryptDate);
-            currentDate = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//
+//        CryptogramImpl cryptogram = new CryptogramImpl(secretKey);
+//        String decryptDate = "";
+//        Date targetDate = null;
+//        Date currentDate = null;
+//        try {
+//            decryptDate = cryptogram.decrypt(expiredDate);
+//            targetDate = simpleDateFormat.parse(decryptDate);
+//            currentDate = simpleDateFormat.parse(simpleDateFormat.format(new Date()));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         String result = "F";
 
-        int compareResult = targetDate.compareTo(currentDate);
-        if (compareResult <= 0) {
-            Employ existEmploy = employMapper.select(employ);
-            if (existEmploy != null
-                    && existEmploy.getMemberId() != null) {
-                result = "R";
-            } else if (existEmploy != null) {
-                result = "S";
-            }
-        }
+//        int compareResult = targetDate.compareTo(currentDate);
+//        if (compareResult <= 0) {
+//            Employ existEmploy = employMapper.select(employ);
+//            if (existEmploy != null
+//                    && existEmploy.getMemberId() != null) {
+//                result = "R";
+//            } else if (existEmploy != null) {
+//                result = "S";
+//            }
+//        }
 
         return result;
     }
@@ -138,42 +138,43 @@ public class EmployServiceImpl implements EmployService {
     @Override
     public boolean sendInviteMessage(Employ employ) {
         boolean isSuccess = false;
-
-        SimpleMailMessage message = createInviteMessage(employ);
-        try {
-            mailSender.send(message);
-
-            isSuccess = true;
-        } catch (MailException e) {
-            e.printStackTrace();
-        }
-
+//
+//        SimpleMailMessage message = createInviteMessage(employ);
+//        try {
+//            mailSender.send(message);
+//
+//            isSuccess = true;
+//        } catch (MailException e) {
+//            e.printStackTrace();
+//        }
+//
         return isSuccess;
     }
 
     public SimpleMailMessage createInviteMessage(Employ employ) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String currentDate = simpleDateFormat.format(new Date());
-        String encryptDate = null;
-
-        try {
-            CryptogramImpl cryptogramImpl = new CryptogramImpl(secretKey);
-            encryptDate = cryptogramImpl.encrypt(currentDate);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        String serverUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-
-        String contents = "안녕하세요" + employ.getName() + "님 \r\n" + "초대경로와 인증코드 첨부드립니다. \r\n" + "초대경로 : "
-                + serverUrl + "/employ/auth?date=" + encryptDate + "\r\n" + "인증 코드 : " + employ.getCertiCode();
-
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(employ.getEmail());
-        message.setSubject("페이스원 초대메시지 안내 메시지");
-        message.setText(contents);
-
-        return message;
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        String currentDate = simpleDateFormat.format(new Date());
+//        String encryptDate = null;
+//
+//        try {
+//            CryptogramImpl cryptogramImpl = new CryptogramImpl(secretKey);
+//            encryptDate = cryptogramImpl.encrypt(currentDate);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        String serverUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+//
+//        String contents = "안녕하세요" + employ.getName() + "님 \r\n" + "초대경로와 인증코드 첨부드립니다. \r\n" + "초대경로 : "
+//                + serverUrl + "/employ/auth?date=" + encryptDate + "\r\n" + "인증 코드 : " + employ.getCertiCode();
+//
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setTo(employ.getEmail());
+//        message.setSubject("페이스원 초대메시지 안내 메시지");
+//        message.setText(contents);
+//
+//        return message;
+        return null;
     }
 
     @Override
