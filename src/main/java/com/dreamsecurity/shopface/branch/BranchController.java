@@ -58,7 +58,7 @@ public class BranchController {
     }
 
     @PutMapping(value = "/branch/{no}")
-    public ResponseEntity<Message> updateBranch(Branch branch, MultipartFile licenseImage) {
+    public ResponseEntity<Message> updateBranch(@RequestBody Branch branch, MultipartFile licenseImage) {
         try {
             if (this.branchService.editBranch(branch, licenseImage)) {
                 return new ResponseEntity<Message>(new Message()
@@ -88,7 +88,7 @@ public class BranchController {
     }
 
     @DeleteMapping(value = "/branch/{no}")
-    public ResponseEntity<Message> removeBranch(Branch branch) {
+    public ResponseEntity<Message> removeBranch(@RequestBody Branch branch) {
         if (this.branchService.removeBranch(branch)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()
