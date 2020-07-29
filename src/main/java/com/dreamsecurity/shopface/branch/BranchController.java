@@ -58,8 +58,9 @@ public class BranchController {
     }
 
     @PutMapping(value = "/branch/{no}")
-    public ResponseEntity<Message> updateBranch(@RequestBody Branch branch, MultipartFile licenseImage) {
+    public ResponseEntity<Message> updateBranch(@PathVariable long no, @RequestBody Branch branch, MultipartFile licenseImage) {
         try {
+            branch.setNo(no);
             if (this.branchService.editBranch(branch, licenseImage)) {
                 return new ResponseEntity<Message>(new Message()
                         .builder()
