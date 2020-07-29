@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 public class ScheduleController {
     private final ScheduleService scheduleService;
 
-    @GetMapping(value = "/schedule")
-    public ResponseEntity listSchedule(@RequestParam String memberId) {
+    @GetMapping(value = "/schedule/{memberId}")
+    public ResponseEntity listSchedule(@PathVariable String memberId) {
         return new ResponseEntity<Message>(new Message()
                 .builder()
                 .status(HttpStatus.OK.toString())
