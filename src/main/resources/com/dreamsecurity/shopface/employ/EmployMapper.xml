@@ -41,7 +41,7 @@
             ,M.PHONE
             ,M.EMAIL
             ,M.BANK_NAME
-            ,M.ACCOUNT_NUM
+            ,M.ACCOUNT_NUMBER
             ,E.STATE
             ,E.SALARY
             ,E.CERTI_CODE

@@ -1,17 +1,13 @@
 package com.dreamsecurity.shopface.member;
 
-import com.dreamsecurity.shopface.alarm.Alarm;
 import com.dreamsecurity.shopface.alarm.AlarmMapper;
-import com.dreamsecurity.shopface.branch.Branch;
 import com.dreamsecurity.shopface.branch.BranchMapper;
-import com.dreamsecurity.shopface.employ.Employ;
 import com.dreamsecurity.shopface.employ.EmployMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -35,28 +31,28 @@ public class MemberServiceImpl implements MemberService {
             member.setPassword(passwordEncoder.encode(member.getPassword()));
             memberMapper.insert(member);
 
-            if (!"".equals(certiCode)) {
-                Employ employ = new Employ();
-                employ.setCertiCode(certiCode);
-                Employ existEmploy = employMapper.select(employ);
-
-                employ.setNo(existEmploy.getNo());
-                employ.setMemberId(member.getId());
-                employ.setEmployDate(LocalDateTime.now());
-                employ.setCertiCode(null);
-                employ.setState("C");
-                employMapper.update(employ);
-
-                Branch branch = new Branch();
-                branch.setNo(existEmploy.getBranchNo());
-                Branch existBranch = branchMapper.select(branch);
-
-                Alarm alarm = new Alarm();
-                alarm.setAddresseeId(existBranch.getMemberId());
-                alarm.setContents(member.getName() + "- 근무자가 합류했습니다.");
-                alarm.setType("근무자 합류");
-                alarmMapper.insert(alarm);
-            }
+//            if (!"".equals(certiCode)) {
+//                Employ employ = new Employ();
+//                employ.setCertiCode(certiCode);
+//                Employ existEmploy = employMapper.select(employ);
+//
+//                employ.setNo(existEmploy.getNo());
+//                employ.setMemberId(member.getId());
+//                employ.setEmployDate(LocalDateTime.now());
+//                employ.setCertiCode(null);
+//                employ.setState("C");
+//                employMapper.update(employ);
+//
+//                Branch branch = new Branch();
+//                branch.setNo(existEmploy.getBranchNo());
+//                Branch existBranch = branchMapper.select(branch);
+//
+//                Alarm alarm = new Alarm();
+//                alarm.setAddresseeId(existBranch.getMemberId());
+//                alarm.setContents(member.getName() + "- 근무자가 합류했습니다.");
+//                alarm.setType("근무자 합류");
+//                alarmMapper.insert(alarm);
+//            }
 
             isSuccess = true;
         }

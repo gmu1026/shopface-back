@@ -38,8 +38,6 @@ public class BranchController {
 
     @PostMapping(value = "/branch")
     public ResponseEntity<Message> addBranch(@RequestBody Branch branch) {
-        log.info(branch.toString());
-
         if (this.branchService.addBranch(branch)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()

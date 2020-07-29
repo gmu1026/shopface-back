@@ -15,9 +15,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/member")
-    public ResponseEntity<Message> addMember(Member member, String certiCode) {
+    public ResponseEntity<Message> addMember(@RequestBody Member member, String certiCode) {
         boolean isSuccess = memberService.addMember(member, certiCode);
-        
+
         //TODO isSuccess false 시 Exception 처리
         
         return new ResponseEntity<Message>(new Message()
