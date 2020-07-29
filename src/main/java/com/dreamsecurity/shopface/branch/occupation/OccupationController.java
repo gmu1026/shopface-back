@@ -22,7 +22,7 @@ public class OccupationController {
     }
 
     @PostMapping(value = "/occupation")
-    public ResponseEntity<Message> addOccupation(Occupation occupation) {
+    public ResponseEntity<Message> addOccupation(@RequestBody Occupation occupation) {
         return new ResponseEntity<Message>(new Message()
                 .builder()
                 .status(HttpStatus.OK.toString())
@@ -32,7 +32,8 @@ public class OccupationController {
     }
 
     @PutMapping(value = "/occupation/{no}")
-    public ResponseEntity<Message> updateOccupation(Occupation occupation) {
+    public ResponseEntity<Message> updateOccupation(@PathVariable long no, @RequestBody Occupation occupation) {
+        occupation.setNo(no);
         if (occupationService.editOccupation(occupation)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()
@@ -51,7 +52,9 @@ public class OccupationController {
     }
 
     @DeleteMapping(value = "/occupation/{no}")
-    public ResponseEntity<Message> removeOccupation(Occupation occupation) {
+    public ResponseEntity<Message> removeOccupation(@PathVariable long no) {
+        Occupation occupation = new Occupation();
+        occupation.setNo(no);
         if (occupationService.removeOccupation(occupation)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()
