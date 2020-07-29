@@ -27,16 +27,17 @@ public class EmployServiceImpl implements EmployService {
     public boolean addEmploy(Employ employ) {
         boolean isSuccess = false;
 
-        if ((employ.getEmail() != null && employ.getEmail() != "")
-                &&(employ.getName() != null && employ.getName() != "")
+        if ((employ.getName() != null && employ.getName() != "")
                 &&employ.getBranchNo() != 0) {
-            employ.setCertiCode(verificationAuthCode(employ));
+            employ.setCertiCode("AAAAAA");
 
-            isSuccess = sendInviteMessage(employ);
+//            isSuccess = sendInviteMessage(employ);
 
-            if(isSuccess == true) {
+//            if(isSuccess == true) {
                 employMapper.insert(employ);
-            }
+
+                isSuccess = true;
+//            }
         }
 
         return isSuccess;

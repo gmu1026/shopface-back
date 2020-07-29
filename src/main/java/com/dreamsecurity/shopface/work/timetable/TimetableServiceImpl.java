@@ -3,6 +3,7 @@ package com.dreamsecurity.shopface.work.timetable;
 import com.dreamsecurity.shopface.work.schedule.Schedule;
 import com.dreamsecurity.shopface.work.schedule.ScheduleMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class TimetableServiceImpl implements TimetableService {
     private final TimetableMapper timetableMapper;
     private final ScheduleMapper scheduleMapper;
@@ -20,59 +22,69 @@ public class TimetableServiceImpl implements TimetableService {
     @Override
     public boolean addTimetable(Timetable timetable, Schedule schedule) {
         boolean isSuccess = false;
-        if (timetable.getWorkStartTime() != null
-                && !"".equals(timetable.getWorkStartTime())
-                && timetable.getWorkEndTime() != null
-                && !"".equals(timetable.getWorkEndTime())
-                && schedule.getMemberId() != null
-                && !"".equals(schedule.getMemberId())) {
-            List<Timetable> timetables = this.timetableMapper.selectAll(timetable);
+        try {
+            if (timetable.getWorkStartTime() != null
+                    && !"".equals(timetable.getWorkStartTime())
+                    && timetable.getWorkEndTime() != null
+                    && !"".equals(timetable.getWorkEndTime())
+                    && schedule.getMemberId() != null
+                    && !"".equals(schedule.getMemberId())) {
+                List<Timetable> timetables = this.timetableMapper.selectAll(timetable);
 
-            if (timetables.size() == 0) {
-                timetableMapper.insert(timetable);
+                if (timetables.size() == 0) {
+                    timetableMapper.insert(timetable);
 
-                schedule.setTimetableNo(timetableMapper.selectAll(timetable).get(0).getNo());
-                schedule.setState("R");
-                scheduleMapper.insert(schedule);
+                    schedule.setTimetableNo(timetableMapper.selectAll(timetable).get(0).getNo());
+                    schedule.setState("R");
+                    scheduleMapper.insert(schedule);
 
-                isSuccess = true;
-            } else if (timetables.size() == 1) {
-                schedule.setTimetableNo(timetables.get(0).getNo());
-                schedule.setState("R");
-                scheduleMapper.insert(schedule);
+                    isSuccess = true;
+                } else if (timetables.size() == 1) {
+                    schedule.setTimetableNo(timetables.get(0).getNo());
+                    schedule.setState("R");
+                    scheduleMapper.insert(schedule);
 
-                isSuccess = true;
+                    isSuccess = true;
+                }
             }
+        }catch (Exception e) {
+            e.printStackTrace();
+            isSuccess = false;
+        } finally {
+            return isSuccess;
         }
-        return isSuccess;
     }
 
     @Override
     public List<TimetableSchedule> getTimetableList(long branchNo) {
-        List<TimetableSchedule> timetableSchedules = new ArrayList<>();
+        List<TimetableSchedule> timetableSchedules = new ArrayList<TimetableSchedule>();
 
-        if (branchNo > 0) {
-            Timetable timetable = new Timetable();
-            timetable.setBranchNo(branchNo);
-            List<Timetable> timetables = this.timetableMapper.selectAll(timetable);
-            if (timetables.size() > 0) {
-                for (int i = 0; i < timetables.size(); i++) {
-                    List<Schedule> schedules = this.scheduleMapper.selectAll(Schedule
-                            .builder()
-                            .timetableNo(timetables.get(i).getNo())
-                            .branchNo(branchNo)
-                            .build());
-                    for (int j = 0; j < schedules.size(); j++) {
-
-                        timetableSchedules.add(new TimetableSchedule(timetables.get(i), schedules.get(j)));
+        try {
+            if (branchNo > 0) {
+                List<Timetable> timetables = this.timetableMapper.selectAll(Timetable.builder().branchNo(branchNo).build());
+                if (timetables.size() > 0) {
+                    for (int i = 0; i < timetables.size(); i++) {
+                        List<Schedule> schedules = this.scheduleMapper.selectAll(Schedule
+                                .builder()
+                                .timetableNo(timetables.get(i).getNo())
+                                .branchNo(branchNo)
+                                .build());
+                        for (int j = 0; j < schedules.size(); j++) {
+                            timetableSchedules.add(new TimetableSchedule(timetables.get(i), schedules.get(j)));
+                        }
                     }
+                    return timetableSchedules;
+                } else {
+                    return timetableSchedules;
                 }
-                return timetableSchedules;
             } else {
                 return timetableSchedules;
             }
-        } else {
-            return timetableSchedules;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            log.info("----------------------------------나오나요?!!!");
         }
     }
 

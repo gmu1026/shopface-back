@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 public class TimetableController {
-    private TimetableService timetableService;
+    private final TimetableService timetableService;
 
-    @GetMapping(value = "/timetable")
-    public ResponseEntity listTimetable(long branchNo) {
+    @GetMapping(value = "/timetable/{branchNo}")
+    public ResponseEntity<Message> listTimetable(@PathVariable long branchNo) {
         return new ResponseEntity<Message>(new Message()
                 .builder()
                 .status(HttpStatus.OK.toString())
@@ -28,7 +28,7 @@ public class TimetableController {
 //    }
 
     @PostMapping(value = "/timetable")
-    public ResponseEntity addTimetable(Timetable timetable, Schedule schedule) {
+    public ResponseEntity<Message> addTimetable(Timetable timetable, Schedule schedule) {
         if (this.timetableService.addTimetable(timetable, schedule)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()
@@ -40,7 +40,7 @@ public class TimetableController {
             return new ResponseEntity<Message>(new Message()
                     .builder()
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.toString())
-                    .message("Fail")
+                    .message("FFail")
                     .data(null)
                     .build(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -48,7 +48,7 @@ public class TimetableController {
     }
 
     @PutMapping(value = "/timetable/{no}")
-    public ResponseEntity updateTimetable(Timetable timetable, Schedule schedule) {
+    public ResponseEntity<Message> updateTimetable(Timetable timetable, Schedule schedule) {
         if (this.timetableService.editTimetable(timetable, schedule)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()

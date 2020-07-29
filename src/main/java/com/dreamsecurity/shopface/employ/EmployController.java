@@ -32,7 +32,7 @@ public class EmployController {
     }
 
     @PostMapping(value = "/employ")
-    public ResponseEntity addEmploy(Employ employ) {
+    public ResponseEntity addEmploy(@RequestBody Employ employ) {
         if (this.employService.addEmploy(employ)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()
@@ -51,7 +51,8 @@ public class EmployController {
     }
 
     @PutMapping(value = "/employ/{no}")
-    public ResponseEntity updateEmploy(Employ employ) {
+    public ResponseEntity updateEmploy(@PathVariable long no, @RequestBody Employ employ) {
+        employ.setNo(no);
         if (this.employService.editEmploy(employ)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()
@@ -70,7 +71,9 @@ public class EmployController {
     }
 
     @DeleteMapping(value = "/employ/{no}")
-    public ResponseEntity removeEmploy(Employ employ) {
+    public ResponseEntity removeEmploy(@PathVariable long no) {
+        Employ employ = new Employ();
+        employ.setNo(no);
         if (this.employService.removeEmploy(employ)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()

@@ -127,6 +127,6 @@
 
     <delete id="delete" parameterType="employ">
         DELETE FROM EMPLOY
-        WHERE NO = #{no};
+        WHERE NO = #{no}
     </delete>
 </mapper>
