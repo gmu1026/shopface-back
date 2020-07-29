@@ -89,7 +89,10 @@ public class BranchController {
     }
 
     @DeleteMapping(value = "/branch/{no}")
-    public ResponseEntity<Message> removeBranch(@RequestBody Branch branch) {
+    public ResponseEntity<Message> removeBranch(@PathVariable long no) {
+        Branch branch = new Branch();
+        branch.setNo(no);
+
         if (this.branchService.removeBranch(branch)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()
