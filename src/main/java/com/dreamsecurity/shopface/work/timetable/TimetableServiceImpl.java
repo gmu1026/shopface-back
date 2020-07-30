@@ -6,10 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,23 +25,26 @@ public class TimetableServiceImpl implements TimetableService {
         boolean isSuccess = false;
         try {
             if (timetable.getWorkStartTime() != null
-                    && !"".equals(timetable.getWorkStartTime())
+                    && timetable.getWorkStartTime() != null
                     && timetable.getWorkEndTime() != null
-                    && !"".equals(timetable.getWorkEndTime())
+                    && timetable.getWorkStartTime() != null
                     && schedule.getMemberId() != null
                     && !"".equals(schedule.getMemberId())) {
                 List<Timetable> timetables = this.timetableMapper.selectAll(timetable);
 
+                log.info("" + timetableMapper.selectAll(timetable).get(0).toString());
+                log.info("" + timetables.size());
                 if (timetables.size() == 0) {
                     timetableMapper.insert(timetable);
 
-                    schedule.setTimetableNo(timetableMapper.selectAll(timetable).get(0).getNo());
+
+                    schedule.setTimetableNo(timetableMapper.selectAll(timetable).get(0).getTimetableNo());
                     schedule.setState("R");
                     scheduleMapper.insert(schedule);
 
                     isSuccess = true;
                 } else if (timetables.size() == 1) {
-                    schedule.setTimetableNo(timetables.get(0).getNo());
+                    schedule.setTimetableNo(timetables.get(0).getTimetableNo());
                     schedule.setState("R");
                     scheduleMapper.insert(schedule);
 
@@ -66,7 +70,7 @@ public class TimetableServiceImpl implements TimetableService {
                     for (int i = 0; i < timetables.size(); i++) {
                         List<Schedule> schedules = this.scheduleMapper.selectAll(Schedule
                                 .builder()
-                                .timetableNo(timetables.get(i).getNo())
+                                .timetableNo(timetables.get(i).getTimetableNo())
                                 .branchNo(branchNo)
                                 .build());
                         for (int j = 0; j < schedules.size(); j++) {
@@ -83,17 +87,15 @@ public class TimetableServiceImpl implements TimetableService {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        } finally {
-            log.info("----------------------------------나오나요?!!!");
         }
     }
 
     @Override
     public boolean editTimetable(Timetable timetable, Schedule schedule) {
-        LocalDateTime current = LocalDateTime.now();
-        LocalDateTime startTime = timetable.getWorkStartTime();
+        Date current = new Date(Calendar.getInstance().getTime().getTime());
+        Date startTime = timetable.getWorkStartTime();
 
-        if (startTime.isAfter(current)) {//starttime > current
+        if (startTime.before(current)) {//starttime > current
             Schedule stateCheck = this.scheduleMapper.select(schedule);
 
             if ("R".equals(stateCheck.getState()) || "L".equals(stateCheck.getState())) {
@@ -110,7 +112,7 @@ public class TimetableServiceImpl implements TimetableService {
                     List<Timetable> result = this.timetableMapper.selectAll(timetable);
                     if (result != null && result.size() == 1) {
 
-                        schedule.setTimetableNo(result.get(0).getNo());
+                        schedule.setTimetableNo(result.get(0).getTimetableNo());
                         this.scheduleMapper.update(schedule);
                         return true;
                     }
@@ -125,32 +127,15 @@ public class TimetableServiceImpl implements TimetableService {
 
     @Override
     public boolean removeTimetable(Schedule schedule) {
-        if (schedule.getNo() > 0
-                && schedule.getNo() > 0) {
-            List<Schedule> schedules = new ArrayList<Schedule>();
-            schedules = this.scheduleMapper.selectAll(schedule);
-            if (schedules != null) {
-                if (schedules != null && schedules.size() == 1) {
-                    if ("R".equals(schedules.get(0).getState()) || "B".equals(schedules.get(0).getState())) {
-                        this.scheduleMapper.delete(schedule);
-                        Schedule parameter = new Schedule();
-                        parameter.setTimetableNo(schedule.getNo());
+        List<Schedule> schedules = this.scheduleMapper.selectAll(schedule);
+        if (schedules.size() > 0) {
+            if ("R".equals(schedules.get(0).getState()) || "B".equals(schedules.get(0).getState())) {
+                this.scheduleMapper.delete(schedule);
 
-                        List<Schedule> resultSchedules = this.scheduleMapper.selectAll(parameter);
-                        if (resultSchedules != null) {
-                            if (resultSchedules.size() > 0) {
-                                return true;
-                            }
-                        } else {
-                            this.timetableMapper.delete(Timetable.builder().no(schedule.getNo()).build());
-                            return true;
-                        }
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
+                return true;
+            } else {
+                this.timetableMapper.delete(Timetable.builder().timetableNo(schedule.getNo()).build());
+                return true;
             }
         }
         return false;

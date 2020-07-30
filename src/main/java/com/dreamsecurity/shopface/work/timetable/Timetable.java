@@ -1,31 +1,36 @@
 package com.dreamsecurity.shopface.work.timetable;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 import org.apache.ibatis.type.Alias;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
 import java.time.LocalDateTime;
 
+@ToString
 @Getter
 @Setter
 @NoArgsConstructor
 @Alias("Timetable")
 public class Timetable {
-    private long no;
+    private long timetableNo;
     private long branchNo;
-    private LocalDateTime workStartTime;
-    private LocalDateTime workEndTime;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    private Date workStartTime;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    private Date workEndTime;
     private String occupationName;
     private String occupationColor;
-    private LocalDateTime registerDate;
+    private Date registerDate;
     private String occupName;
     private String occupColor;
 
     @Builder
-    public Timetable(long no, long branchNo, LocalDateTime workStartTime, LocalDateTime workEndTime, String occupationName, String occupationColor, LocalDateTime registerDate, String occupName, String occupColor) {
-        this.no = no;
+    public Timetable(long timetableNo, long branchNo, Date workStartTime, Date workEndTime, String occupationName, String occupationColor, Date registerDate, String occupName, String occupColor) {
+        this.timetableNo = timetableNo;
         this.branchNo = branchNo;
         this.workStartTime = workStartTime;
         this.workEndTime = workEndTime;

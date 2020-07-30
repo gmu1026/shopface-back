@@ -3,11 +3,15 @@ package com.dreamsecurity.shopface.work.timetable;
 import com.dreamsecurity.shopface.Message;
 import com.dreamsecurity.shopface.work.schedule.Schedule;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
+
 @RequiredArgsConstructor
+@Slf4j
 @RestController
 public class TimetableController {
     private final TimetableService timetableService;
@@ -28,7 +32,11 @@ public class TimetableController {
 //    }
 
     @PostMapping(value = "/timetable")
-    public ResponseEntity<Message> addTimetable(Timetable timetable, Schedule schedule) {
+    public ResponseEntity<Message> addTimetable(@RequestBody TimetableSchedule timetableSchedule) {
+        Timetable timetable = timetableSchedule.getTimetable();
+        Schedule schedule = timetableSchedule.getSchedule();
+        log.info(timetable.toString());
+        log.info(schedule.toString());
         if (this.timetableService.addTimetable(timetable, schedule)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()
@@ -48,7 +56,10 @@ public class TimetableController {
     }
 
     @PutMapping(value = "/timetable/{no}")
-    public ResponseEntity<Message> updateTimetable(Timetable timetable, Schedule schedule) {
+    public ResponseEntity<Message> updateTimetable(@PathVariable long no, @RequestBody TimetableSchedule timetableSchedule) {
+        Timetable timetable = timetableSchedule.getTimetable();
+        timetable.setTimetableNo(no);
+        Schedule schedule = timetableSchedule.getSchedule();
         if (this.timetableService.editTimetable(timetable, schedule)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()
@@ -67,7 +78,9 @@ public class TimetableController {
     }
 
     @DeleteMapping(value = "/timetable/{no}")
-    public ResponseEntity removeTimetable(Schedule schedule) {
+    public ResponseEntity removeTimetable(@PathVariable long no) {
+        Schedule schedule = new Schedule();
+        schedule.setNo(no);
         if (this.timetableService.removeTimetable(schedule)) {
             return new ResponseEntity<Message>(new Message()
                     .builder()

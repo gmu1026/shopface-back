@@ -89,6 +89,9 @@
         ON E.MEMBER_ID =
         S.MEMBER_ID
         <where>
+            <if test="no > 0">
+                AND S.NO = #{no}
+            </if>
             <if test="timetableNo != null and timetableNo != ''">
                 AND S.TIMETABLE_NO = #{timetableNo}
             </if>

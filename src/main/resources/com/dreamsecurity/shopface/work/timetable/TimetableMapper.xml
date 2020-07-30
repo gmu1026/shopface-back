@@ -8,8 +8,8 @@
 		INSERT INTO TIMETABLE(NO, BRANCH_NO, WORK_START_TIME, WORK_END_TIME, OCCUP_NAME, OCCUP_COLOR, REGISTER_DATE)
 		VALUES(TIMETABLE_NO_SEQ.NEXTVAL
 				,#{branchNo}
-				,TO_DATE(#{workStartTime}, 'YYYY-MM-DD HH24:MI:SS')
-				,TO_DATE(#{workEndTime}, 'YYYY-MM-DD HH24:MI:SS')
+                ,#{workStartTime}
+                ,#{workEndTime}
 				,#{occupName}
 				,#{occupColor}
 				,SYSDATE)
@@ -18,8 +18,8 @@
 		SELECT
 			 NO AS TIMETABLE_NO
 			,BRANCH_NO
-			,TO_CHAR(WORK_START_TIME, 'YYYY-MM-DD HH24:MI:SS') AS "WORK_START_TIME"
-			,TO_CHAR(WORK_END_TIME, 'YYYY-MM-DD HH24:MI:SS') AS "WORK_END_TIME"
+		    ,WORK_START_TIME
+		    ,WORK_END_TIME
 			,OCCUP_NAME
 			,OCCUP_COLOR
 			,REGISTER_DATE
@@ -31,19 +31,19 @@
         SELECT
              NO AS TIMETABLE_NO
             ,BRANCH_NO
-            ,TO_CHAR(WORK_START_TIME, 'YYYY-MM-DD HH24:MI:SS') AS "WORK_START_TIME"
-            ,TO_CHAR(WORK_END_TIME, 'YYYY-MM-DD HH24:MI:SS') AS "WORK_END_TIME"
+            ,WORK_START_TIME
+            ,WORK_END_TIME
             ,OCCUP_NAME
             ,OCCUP_COLOR
             ,REGISTER_DATE
         FROM TIMETABLE
         <where>
             BRANCH_NO = #{branchNo}
-            <if test="workStartTime != null and workStartTime != ''">
-                AND WORK_START_TIME = TO_DATE(#{workStartTime}, 'YYYY-MM-DD HH24:MI:SS')
+            <if test="workStartTime != null">
+                AND WORK_START_TIME = #{workStartTime}
             </if>
-            <if test="workEndTime != null and workEndTime != ''">
-                AND WORK_END_TIME = TO_DATE(#{workEndTime}, 'YYYY-MM-DD HH24:MI:SS')
+            <if test="workEndTime != null">
+                AND WORK_END_TIME = #{workEndTime}
             </if>
             <if test="occupName != null and occupName != ''">
                 AND OCCUP_NAME = #{occupName}
@@ -57,11 +57,11 @@
     <update id="update" parameterType="Timetable">
         UPDATE TIMETABLE
         <set>
-            <if test="workStartTime != null and workStartTime != ''">
-                WORK_START_TIME = TO_DATE(#{workStartTime}, 'YYYY-MM-DD HH24:MI:SS'),
+            <if test="workStartTime != null">
+                WORK_START_TIME = #{workStartTime},
             </if>
-            <if test="workEndTime != null and workEndTime != ''">
-                WORK_END_TIME = TO_DATE(#{workEndTime}, 'YYYY-MM-DD HH24:MI:SS'),
+            <if test="workEndTime != null">
+                WORK_END_TIME = #{workEndTime},
             </if>
             <if test="occupName != null and occupName != ''">
                 OCCUP_NAME = #{occupName},
