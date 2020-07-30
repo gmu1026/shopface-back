@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.apache.ibatis.type.Alias;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -22,10 +23,10 @@ public class Record {
     private String memberId;
     private String memberName;
     private String memberPhone;
-    private LocalDateTime workStartTime;
-    private LocalDateTime workEndTime;
-    private LocalDateTime workingTime;
-    private LocalDateTime quittingTime;
+    private Date workStartTime;
+    private Date workEndTime;
+    private Date workingTime;
+    private Date quittingTime;
     private String occupationName;
     private long salaryPlan;
     private long salaryPay;
@@ -37,8 +38,8 @@ public class Record {
                   String businessmanId, String businessmanName,
                   long branchNo, String branchName, String branchPhone,
                   String memberId, String memberName, String memberPhone,
-                  LocalDateTime workStartTime, LocalDateTime workEndTime,
-                  LocalDateTime workingTime, LocalDateTime quittingTime,
+                  Date workStartTime, Date workEndTime,
+                  Date workingTime, Date quittingTime,
                   String occupationName,
                   long salaryPlan, long salaryPay,
                   long evaluation, String note) {

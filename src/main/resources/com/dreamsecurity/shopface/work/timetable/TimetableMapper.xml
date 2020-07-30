@@ -24,7 +24,7 @@
 			,OCCUP_COLOR
 			,REGISTER_DATE
 		FROM TIMETABLE
-		WHERE NO = #{no}
+		WHERE NO = #{timetableNo}
 	</select>
 
     <select id="selectAll" parameterType="timetable" resultType="timeTable">

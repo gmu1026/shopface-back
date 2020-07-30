@@ -2,13 +2,18 @@ package com.dreamsecurity.shopface.record;
 
 import com.dreamsecurity.shopface.branch.Branch;
 import com.dreamsecurity.shopface.branch.BranchMapper;
+import com.dreamsecurity.shopface.employ.Employ;
 import com.dreamsecurity.shopface.employ.EmployMapper;
+import com.dreamsecurity.shopface.member.Member;
+import com.dreamsecurity.shopface.member.MemberMapper;
 import com.dreamsecurity.shopface.work.schedule.Schedule;
 import com.dreamsecurity.shopface.work.schedule.ScheduleMapper;
+import com.dreamsecurity.shopface.work.timetable.Timetable;
 import com.dreamsecurity.shopface.work.timetable.TimetableMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -19,7 +24,7 @@ public class RecordServiceImpl implements RecordService {
     private final TimetableMapper timetableMapper;
     private final BranchMapper branchMapper;
     private final EmployMapper employMapper;
-//    private final MemberMapper memberMapper;
+    private final MemberMapper memberMapper;
 
     @Override
     public List<Record> getRecordList(Record record, Branch branch) {
@@ -32,39 +37,42 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public boolean addRecord(Schedule schedule) {
-//        boolean isSuccess = false;
-//
-//        Schedule existSchedule = scheduleMapper.select(schedule);
-//        if (existSchedule != null) {
-//            Record record = new Record();
-//
-//            existSchedule.setState('P');
-//            scheduleMapper.update(existSchedule);
-//
-//            Member member = new Member();
-//            member.setId(existSchedule.getMemberId());
-//            Member existMember = memberMapper.select(member);
-//            record.setMemberName(existMember.getName());
-//            record.setMemberId(existMember.getId());
-//            record.setMemberPhone(existMember.getPhone());
-//
-//            Timetable existTimetable = timetableMapper.select(existSchedule.getTimetableNo());
-//            record.setOccupationName(existTimetable.getOccupName());
-//            record.setWorkStartTime(existTimetable.getWorkStartTime());
-//            record.setWorkEndTime(existTimetable.getWorkEndTime());
-//
-//            Branch existBranch = branchMapper.select(existTimetable.getBranchNo());
-//            record.setBranchNo(existBranch.getNo());
-//            record.setBranchName(existBranch.getName());
-//            record.setBranchPhone(existBranch.getPhone());
-//
-//            Member businessman = new Member();
-//            businessman.setId(existBranch.getMemberId());
-//            Member existBusinessman = memberMapper.select(businessman);
-//            record.setBusinessmanId(existBusinessman.getId());
-//            record.setBusinessmanName(existBusinessman.getName());
-//
-//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        boolean isSuccess = false;
+
+        Schedule existSchedule = scheduleMapper.select(schedule);
+        if (existSchedule != null) {
+            Record record = new Record();
+
+            existSchedule.setState("P");
+            scheduleMapper.update(existSchedule);
+
+            Member member = new Member();
+            member.setId(existSchedule.getMemberId());
+            Member existMember = memberMapper.select(member);
+            record.setMemberName(existMember.getName());
+            record.setMemberId(existMember.getId());
+            record.setMemberPhone(existMember.getPhone());
+
+            Timetable paramTimetable = new Timetable();
+            paramTimetable.setTimetableNo(existSchedule.getTimetableNo());
+            Timetable existTimetable = timetableMapper.select(paramTimetable);
+            record.setOccupationName(existTimetable.getOccupName());
+            record.setWorkStartTime(existTimetable.getWorkStartTime());
+            record.setWorkEndTime(existTimetable.getWorkEndTime());
+
+            Branch paramBranch = new Branch();
+            paramBranch.setNo(existTimetable.getBranchNo());
+            Branch existBranch = branchMapper.select(paramBranch);
+            record.setBranchNo(existBranch.getNo());
+            record.setBranchName(existBranch.getName());
+            record.setBranchPhone(existBranch.getPhone());
+
+            Member businessman = new Member();
+            businessman.setId(existBranch.getMemberId());
+            Member existBusinessman = memberMapper.select(businessman);
+            record.setBusinessmanId(existBusinessman.getId());
+            record.setBusinessmanName(existBusinessman.getName());
+
 //            long workStart = 0;
 //            long workEnd = 0;
 //            try {
@@ -73,7 +81,7 @@ public class RecordServiceImpl implements RecordService {
 //            } catch (ParseException e) {
 //                e.printStackTrace();
 //            }
-//
+
 //            double hours = (workEnd - workStart) / (double) 3600;
 //
 //            Employ employ = new Employ();
@@ -82,7 +90,7 @@ public class RecordServiceImpl implements RecordService {
 //            Employ existEmploy = employMapper.selectEmploy(employ);
 //            record.setSalaryPlan((int)(existEmploy.getSalary() * hours));
 //
-//            recordMapper.insert(record);
+            recordMapper.insert(record);
 //
 //            Date now = new Date();
 //            if (now.compareTo(new Date(workStart)) > -1) {
@@ -92,10 +100,10 @@ public class RecordServiceImpl implements RecordService {
 //            }
 //
 //            scheduleMapper.update(existSchedule);
-//
-//            isSuccess = true;
-//        }
-//
+
+            isSuccess = true;
+        }
+
         return false;
     }
 

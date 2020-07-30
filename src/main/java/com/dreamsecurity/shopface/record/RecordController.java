@@ -2,6 +2,7 @@ package com.dreamsecurity.shopface.record;
 
 import com.dreamsecurity.shopface.Message;
 import com.dreamsecurity.shopface.branch.Branch;
+import com.dreamsecurity.shopface.work.schedule.Schedule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,9 @@ public class RecordController {
     }
 
     @PostMapping(value = "/record")
-    public ResponseEntity addRecord() {
+    public ResponseEntity addRecord(@RequestBody Schedule schedule) {
+        recordService.addRecord(schedule);
+
         return null;
     }
 
